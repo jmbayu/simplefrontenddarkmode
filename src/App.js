@@ -3,8 +3,17 @@ import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Button from '@mui/material/Button';
 
 import axios from 'axios';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 const App = () => {
   const [startDateTime, handleStartDateTimeChange] = useState(null);
@@ -55,15 +64,16 @@ const readDataFromAPI = async () => {
 };
 
   return (
+    <ThemeProvider theme={darkTheme}>
+    <CssBaseline />
     <div>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <button
-          style={{ marginTop: '10px' }}
-          type="button"
+        <Button
+          variant="contained"
           onClick={readDataFromAPI}
         >
           Read Data
-        </button>
+        </Button>
         <br/>
         <br/>
         <MobileDateTimePicker
@@ -84,14 +94,13 @@ const readDataFromAPI = async () => {
         />
       </LocalizationProvider>
       <br/>
-      <button
-        style={{ marginTop: '10px' }}
-        type="button"
+      <Button
+       variant="contained"
         disabled={!startDateTime || !endDateTime}
         onClick={sendDataToAPI}
       >
         Send Data
-      </button>
+      </Button>
       <br/>
 
       {responseMessage && <div>{responseMessage}</div>}
@@ -101,6 +110,7 @@ const readDataFromAPI = async () => {
         </div>
       )}
     </div>
+    </ThemeProvider>
   );
 };
 
